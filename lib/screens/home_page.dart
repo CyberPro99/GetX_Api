@@ -12,7 +12,7 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
-  final getDataController = Get.put(PostsController());
+  final getDataController = Get.put(ApiController());
 
   @override
   void initState() {
@@ -30,7 +30,7 @@ class _HomePageState extends State<HomePage> {
         ),
         body: !getDataController.isLoading.value
             ? ListView.builder(
-                itemCount: getDataController.getDataModel.value.people?.length,
+                itemCount: getDataController.getDataModel.value.data?.length,
                 itemBuilder: (context, index) {
                   return Card(
                       child: Padding(
@@ -38,17 +38,18 @@ class _HomePageState extends State<HomePage> {
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
+                        Image.network(
+                            '${getDataController.getDataModel.value.data?[index].img}'),
                         Text(
-                          getDataController.getDataModel.value.people![index].craft??'',
-                        ),
-                        Text(
-                          getDataController.getDataModel.value.people![index].name??'',
-                        ),
+                            '${getDataController.getDataModel.value.data?[index].id}'),
+                        Text(getDataController
+                                .getDataModel.value.data![index].name ??
+                            ''),
                       ],
                     ),
                   ));
                 })
-            : Center(child: CircularProgressIndicator()),
+            : const Center(child: CircularProgressIndicator()),
       ),
     );
   }
